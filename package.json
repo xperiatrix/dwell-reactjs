@@ -2,6 +2,7 @@
   "name": "dwell-reactjs",
   "version": "0.1.1",
   "private": true,
+  "proxy": "http://localhost:7777",
   "dependencies": {
     "axios": "^0.19.0",
     "babel-core": "^6.26.3",
