@@ -1,13 +1,16 @@
 import React from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import DwellAPI from './config/DwellAPI';
 import '../node_modules/material-design-lite/material.min.css';
 import '../node_modules/material-design-lite/material.min.js';
 import '../node_modules/material-design-icons/iconfont/material-icons.css';
+
+import DwellAPI from './config/DwellAPI';
 import TableViewComponent from './components/TableViewComponent';
 import {PullToRefresh} from "react-js-pull-to-refresh";
 import {PullDownContent, ReleaseContent, RefreshContent} from "react-js-pull-to-refresh";
+import InfiniteScroll from 'react-infinite-scroller';
+import '../node_modules/react-infinite-scroller/dist/InfiniteScroll.js';
 
 class App extends React.Component {
   constructor(props) {
@@ -15,27 +18,39 @@ class App extends React.Component {
     this.state = {
       serverResponse: [],
       pageNumber: 1,
-      pageSize: 10,
+      pageSize: 20,
+      hasMore: true,
+      isInfinityLoopFirstLoaded: false,
       totalCount: 0,
       uitableview: null,
     }
-    this.invokeApi = this.invokeApi.bind(this);
+    this.invokeApi = this.loadDataAtFirstTime.bind(this);
     this.onRefresh = this.onRefresh.bind(this);
+    this.loadMoreData = this.loadMoreData.bind(this);
   }
 
   componentDidMount() {
-    this.invokeApi();
+    this.loadDataAtFirstTime();
     console.log('+++++++++++++++')
   }
 
   onRefresh() {
-    this.invokeApi();
+    this.loadDataAtFirstTime();
     return new Promise((resolve) => {
       setTimeout(resolve, 2000);
     });
   }
 
-  invokeApi() {
+  loadMoreData() {
+    console.log('+++++++++++++++load-more-data------------')
+    if (this.state.isInfinityLoopFirstLoaded) {
+      var previousPageNumber = this.state.pageNumber;
+      this.loadDataAfterTheFirstTime(previousPageNumber+1)
+    }
+    
+  }
+
+  loadDataAtFirstTime() {
     const axios = require('axios');
     var fetchedData = [];
     const url = DwellAPI.houseList+'?pageNumber=1&pageSize=20';
@@ -49,13 +64,20 @@ class App extends React.Component {
       })
       .finally(() => {
         this.setState({
+          isInfinityLoopFirstLoaded: true,
           serverResponse: fetchedData,
           uitableview: <TableViewComponent datasource={fetchedData} />
         }) 
       });
   }
 
+  loadDataAfterTheFirstTime(pageNumber) {
+    console.log(pageNumber)
+  }
+
   render() {
+    const loader = <div className="loader" style={{clear:"both"}}>Loading ...</div>;
+
     return (
       <div className="demo-layout-transparent mdl-layout mdl-js-layout
                       mdl-layout--fixed-header mdl-layout--fixed-tabs">
@@ -86,7 +108,7 @@ class App extends React.Component {
 
             <div className="mdl-layout__tab-bar mdl-js-ripple-effect"
                  style={{backgroundColor: '#5D43DA'}} >
-                <a href="#fixed-tab-1" className="mdl-layout__tab is-active"><b>整组房源列表</b></a>
+                <a href="#fixed-tab-1" className="mdl-layout__tab is-active"><b>整租房源列表</b></a>
                 <a href="#fixed-tab-2" className="mdl-layout__tab"><b>地图找房源</b></a>
                 <a href="#fixed-tab-3" className="mdl-layout__tab"><b>搜索结果</b></a>
             </div>
@@ -95,10 +117,10 @@ class App extends React.Component {
           <div className="mdl-layout__drawer">
             <span className="mdl-layout-title">Young</span>
             <nav className="mdl-navigation">
-              <a className="mdl-navigation__link" href="javascript:;"><b>Email: </b></a>
+              <a className="mdl-navigation__link" href="javascript:;"><b>邮箱: </b></a>
               <a className="mdl-navigation__link" href="javascript:;"><b>Objective: </b></a>
-              <a className="mdl-navigation__link" href="javascript:;"><b>Desc: Just Do IT</b></a>
-              <a className="mdl-navigation__link" href="javascript:;"><b>Location: CN</b></a>
+              <a className="mdl-navigation__link" href="javascript:;"><b>Just Do IT</b></a>
+              <a className="mdl-navigation__link" href="javascript:;"><b>地点: CN</b></a>
             </nav>
           </div>
 
@@ -112,7 +134,18 @@ class App extends React.Component {
                               pullDownThreshold={200}
                               onRefresh={this.onRefresh}
                               triggerHeight={100}>
-                              <div className="page-content">{this.state.uitableview}</div>
+                              <div className="page-content">
+                                <div style={{height:"700px", overflow:"auto", clear:"both"}}>
+                                  <InfiniteScroll
+                                      pageStart={0}
+                                      useWindow={false}
+                                      loadMore={this.loadMoreData}
+                                      hasMore={this.state.hasMore}
+                                      loader={loader}>
+                                      {this.state.uitableview}
+                                  </InfiniteScroll>
+                                </div>
+                              </div>
                           </PullToRefresh>
                       </div>
                 </section>
