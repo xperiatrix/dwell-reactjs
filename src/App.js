@@ -15,15 +15,17 @@ import '../node_modules/react-infinite-scroller/dist/InfiniteScroll.js';
 class App extends React.Component {
   constructor(props) {
     super(props)
+
+    this.isInfinityLoopCanBeTriggered = false;
     this.state = {
       serverResponse: [],
       pageNumber: 1,
       pageSize: 20,
       hasMore: true,
-      isInfinityLoopFirstLoaded: false,
       totalCount: 0,
       uitableview: null,
     }
+
     this.invokeApi = this.loadDataAtFirstTime.bind(this);
     this.onRefresh = this.onRefresh.bind(this);
     this.loadMoreData = this.loadMoreData.bind(this);
@@ -31,7 +33,7 @@ class App extends React.Component {
 
   componentDidMount() {
     this.loadDataAtFirstTime();
-    console.log('+++++++++++++++')
+    console.log('+++++++++++++++componentDidMount')
   }
 
   onRefresh() {
@@ -42,18 +44,17 @@ class App extends React.Component {
   }
 
   loadMoreData() {
-    console.log('+++++++++++++++load-more-data------------')
-    if (this.state.isInfinityLoopFirstLoaded) {
+    if (this.isInfinityLoopCanBeTriggered) {
+      console.log('+++++++++++++++load-more-data------------')
       var previousPageNumber = this.state.pageNumber;
       this.loadDataAfterTheFirstTime(previousPageNumber+1)
     }
-    
   }
 
   loadDataAtFirstTime() {
     const axios = require('axios');
     var fetchedData = [];
-    const url = DwellAPI.houseList+'?pageNumber=1&pageSize=20';
+    const url = DwellAPI.houseList+'?pageNumber=1';
     axios.get(url)
       .then((response) => {
         console.log(((response['data'])['data'])['arrays']);
@@ -64,15 +65,36 @@ class App extends React.Component {
       })
       .finally(() => {
         this.setState({
-          isInfinityLoopFirstLoaded: true,
           serverResponse: fetchedData,
           uitableview: <TableViewComponent datasource={fetchedData} />
         }) 
+        this.isInfinityLoopCanBeTriggered = true;
       });
   }
 
   loadDataAfterTheFirstTime(pageNumber) {
     console.log(pageNumber)
+    const axios = require('axios');
+    this.isInfinityLoopCanBeTriggered = false;
+    var fetchedData = this.state.serverResponse.slice();
+    var newFetchedData = [];
+    const url = DwellAPI.houseList+'?pageNumber='+pageNumber; 
+    axios.get(url)
+    .then((response) => {
+      console.log(((response['data'])['data'])['arrays']);
+      newFetchedData = ((response['data'])['data'])['arrays'];
+      fetchedData = [...fetchedData, ...newFetchedData];
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+    .finally(() => {
+      this.setState({
+        serverResponse: fetchedData,
+        uitableview: <TableViewComponent datasource={fetchedData} />
+      }) 
+      this.isInfinityLoopCanBeTriggered = true;
+    }); 
   }
 
   render() {
@@ -142,7 +164,7 @@ class App extends React.Component {
                                       loadMore={this.loadMoreData}
                                       hasMore={this.state.hasMore}
                                       loader={loader}>
-                                      {this.state.uitableview}
+                                          {this.state.uitableview}
                                   </InfiniteScroll>
                                 </div>
                               </div>
