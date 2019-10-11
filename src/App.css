@@ -2,21 +2,22 @@
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
+.demo-layout-transparent {
+  background: url('./res/img/milestone.png') center / cover;
 }
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+.demo-layout-transparent .mdl-layout__header,
+.demo-layout-transparent .mdl-layout__drawer-button {
+  /* This background is dark, so we set text to white. Use 87% black instead if
+     your background is light. */
   color: white;
 }
 
-.App-link {
-  color: #09d3ac;
+.mdl-layout__tab-bar {
+  background: url('./res/img/tab-pager-view.png') center / cover;
 }
+
+.mdl-layout__content {
+  text-align: center;
+  color: white;
+}
+
