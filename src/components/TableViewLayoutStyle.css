@@ -1,6 +1,7 @@
 .demo-card-wide {
     width: 100%;
     height: 100%;
+    top: 15px;
 }
 
 .demo-card-wide > .mdl-card__title {

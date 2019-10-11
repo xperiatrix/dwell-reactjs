@@ -23,7 +23,8 @@
     "reactstrap": "^8.0.0",
     "typescript": "^3.5.1",
     "url-join": "^4.0.0",
-    "webpack": "^4.34.0"
+    "webpack": "^4.34.0",
+    "react-js-pull-to-refresh": "^1.2.2"
   },
   "scripts": {
     "start": "react-scripts start",
