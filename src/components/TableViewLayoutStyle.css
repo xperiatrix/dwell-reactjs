@@ -1,0 +1,53 @@
+.demo-card-wide {
+    width: 100%;
+    height: 100%;
+}
+
+.demo-card-wide > .mdl-card__title {
+    color: #fff;
+    width: 100%;
+    height: 16%;
+    background: url('../res/img/tab-pager-view.png') center / cover;
+}
+
+.mdl-card__title-text {
+    font-size: 13.5px;
+    margin-left: 0;
+    height: 20px;
+    flex: 1;
+    margin-left: -8px;
+    margin-right: 15px;
+}
+
+.image-source {
+    background: url('../res/img/image-placeholder.png');
+}
+
+.mdl-card {
+    min-height: 280px;
+}
+
+.mdl-card__supporting-text {
+    width: 100%;
+    min-height: 150px;
+    margin: 0;
+}
+
+.image-source {
+    width: 250px;
+    height: 180px;
+}
+
+.demo-card-wide {
+    color: #fff;
+}
+
+.demo-card-wide > .mdl-card__menu {
+    color: #fff;
+    right: 7px;
+    top: 10px;
+}
+
+.box {
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
