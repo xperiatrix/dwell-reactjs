@@ -16,7 +16,7 @@ class TableViewCellComponent extends React.Component {
             <div>
                 <div className="demo-card-wide mdl-card mdl-shadow--2dp" >
                   <div className="mdl-card__title">
-                    <a className="mdl-card__title-text"><b>{this.props.itemValue.title}</b></a>
+                    <a className="mdl-card__title-text" href="http://www.google.com"><b>{this.props.itemValue.title}</b></a>
                   </div>
 
                   <div className="mdl-card__supporting-text">
