@@ -1,4 +1,9 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Dwell-reactjs was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+&nbsp;&nbsp;&nbsp;&nbsp; 该前端SPA连接Dwell-server-API，用于显示简洁结果，详情页面链接到原始房源详情页面，列表页面支持下拉刷新与上拉加载更多，初次尝试React，感觉用起来很快，把Model又写回View层了，后面深入了解的话，一定要要搜索一下react.js的最佳实践。该repo会持续更新。
+
+![](./src/res/img/api-show-result.png) 
+![](./src/res/img/display.png) 
 
 - [How to make component full-screen](https://stackoverflow.com/questions/1719452/how-to-make-a-div-always-full-screen)
   
