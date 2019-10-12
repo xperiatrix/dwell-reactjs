@@ -4,7 +4,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../node_modules/material-design-lite/material.min.css';
 import '../node_modules/material-design-lite/material.min.js';
 import '../node_modules/material-design-icons/iconfont/material-icons.css';
-
 import DwellAPI from './config/DwellAPI';
 import TableViewComponent from './components/TableViewComponent';
 import {PullToRefresh} from "react-js-pull-to-refresh";
@@ -40,6 +39,19 @@ class App extends React.Component {
     autoClose: 5000
     }
   );
+
+  aboutProjectNotifyCallBack = () => toast(
+    "第一次写java和react的前后端, 开发过程是遇到问题解决问题, 踩了很多坑, 也收获了很多, 越写越兴奋, 希望越写越好. :-)", 
+    {
+    render: "New content",
+    type: toast.TYPE.SUCCESS,
+    autoClose: 15000
+    }
+  );
+
+  routeRequestToDetail = (atIndex) => {
+    console.log('routeRequestToDetail+' + atIndex)
+  };
 
   componentDidMount() {
     this.loadDataAtFirstTime();
@@ -80,7 +92,9 @@ class App extends React.Component {
           pageNumber: 1,
           hasMore: hasMore,
           serverResponse: fetchedData,
-          uitableview: <TableViewComponent datasource={fetchedData} itemDidSelected={this.notifyCallBack}/>
+          uitableview: <TableViewComponent datasource={fetchedData}
+                                           shareButtonDidSelected={this.notifyCallBack} 
+                                           itemDidSelectedAtIndex={this.routeRequestToDetail} />
         }) 
         this.isInfinityLoopCanBeTriggered = true;
       });
@@ -108,7 +122,9 @@ class App extends React.Component {
         hasMore: hasMore,
         pageNumber: pageNumber,
         serverResponse: fetchedData,
-        uitableview: <TableViewComponent datasource={fetchedData} itemDidSelected={this.notifyCallBack}/>
+        uitableview: <TableViewComponent datasource={fetchedData}
+                                         shareButtonDidSelected={this.notifyCallBack} 
+                                         itemDidSelectedAtIndex={this.routeRequestToDetail} />
       }) 
       this.isInfinityLoopCanBeTriggered = true;
     }); 
@@ -118,17 +134,17 @@ class App extends React.Component {
     const loader = <div className="loader" style={{clear:"both"}}>Loading ...</div>;
 
     return (
-      <div className="demo-layout-transparent mdl-layout mdl-js-layout
-                      mdl-layout--fixed-header mdl-layout--fixed-tabs ">
+        <div className="demo-layout-transparent mdl-layout mdl-js-layout
+                        mdl-layout--fixed-header mdl-layout--fixed-tabs ">
           <header className="mdl-layout__header mdl-layout__header--transparent">
             <div className="mdl-layout__header-row">
-              <span className="mdl-layout-title">Application</span>
+              <span className="mdl-layout-title">React-Dwell v0.1</span>
               <div className="mdl-layout-spacer"></div>
               <nav className="mdl-navigation">
-                <a className="mdl-navigation__link" href="javascript:;">Home</a>
-                <a className="mdl-navigation__link" href="javascript:;">About </a>
-                <a className="mdl-navigation__link" href="http://github.com/toureek/dwell">Github</a>
-                <a className="mdl-navigation__link" href="javascript:;">Contact</a>
+                <a className="mdl-navigation__link" href="https://xa.zu.ke.com/zufang/rt200600000001/" target="_blank"><b>原始数据源</b></a>
+                <a className="mdl-navigation__link" href="javascript:;" onClick={this.aboutProjectNotifyCallBack}><b>关于</b></a>
+                <a className="mdl-navigation__link" href="http://github.com/toureek/dwell" target="_blank"><b>Github</b></a>
+                <a className="mdl-navigation__link" href="javascript:;"><b>未完待续...</b></a>
               </nav>
 
               <div className="mdl-textfield mdl-js-textfield mdl-textfield--expandable
@@ -149,17 +165,18 @@ class App extends React.Component {
                  style={{backgroundColor: '#5D43DA'}} >
                 <a href="#fixed-tab-1" className="mdl-layout__tab is-active"><b>整租房源列表</b></a>
                 <a href="#fixed-tab-2" className="mdl-layout__tab"><b>地图找房源</b></a>
-                <a href="#fixed-tab-3" className="mdl-layout__tab"><b>搜索结果</b></a>
+                {/* <a href="#fixed-tab-3" className="mdl-layout__tab"><b>搜索结果</b></a> */}
             </div>
           </header>
 
           <div className="mdl-layout__drawer">
-            <span className="mdl-layout-title">Young</span>
+            <span className="mdl-layout-title">Toureek</span>
             <nav className="mdl-navigation">
-              <a className="mdl-navigation__link" href="javascript:;"><b>邮箱: </b></a>
-              <a className="mdl-navigation__link" href="javascript:;"><b>Objective: </b></a>
+              <a className="mdl-navigation__link" href="javascript:;"><b>Email: june.key.young@gmail.com</b></a>
+              <a className="mdl-navigation__link" href="javascript:;"><b>Objective: iOS / Java</b></a>
+              <a className="mdl-navigation__link" href="javascript:;"><b>Location: China</b></a>
               <a className="mdl-navigation__link" href="javascript:;"><b>Just Do IT</b></a>
-              <a className="mdl-navigation__link" href="javascript:;"><b>地点: CN</b></a>
+              <a className="mdl-navigation__link" href="https://www.github.com/toureek" target="_blank"><b>Github</b></a>
             </nav>
           </div>
 
@@ -195,9 +212,9 @@ class App extends React.Component {
                 </div>
               </section>
 
-              <section className="mdl-layout__tab-panel" id="fixed-tab-3">
+              {/* <section className="mdl-layout__tab-panel" id="fixed-tab-3">
                 <div className="page-content">搜索结果</div>
-              </section>
+              </section> */}
           </main>
           <ToastContainer />
       </div>

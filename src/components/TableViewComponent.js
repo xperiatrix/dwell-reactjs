@@ -12,11 +12,12 @@ class TableViewComponent extends React.Component {
 
     tableViewCellDidSelectedCallback = (atIndex) => {
        console.log(atIndex + 'tableViewCellDidSelectedCallback')
+       this.props.itemDidSelectedAtIndex(atIndex)
     }
 
     tableViewCellShareButtonClickedCallback = (atIndex) => {
       console.log(atIndex + 'tableViewCellShareButtonClickedCallback')
-      this.props.itemDidSelected()
+      this.props.shareButtonDidSelected()
     }
 
     installView(element) {
