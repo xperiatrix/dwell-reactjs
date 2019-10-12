@@ -1,28 +1,42 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+- [How to make component full-screen](https://stackoverflow.com/questions/1719452/how-to-make-a-div-always-full-screen)
+  
+- Change any div-elements styles on html can use Bootstrap. 
+  import 'bootstrap/dist/css/bootstrap.min.css';
+
+- [React.js - What is the best way to add a value to an array in state](https://stackoverflow.com/questions/26253351/correct-modification-of-state-arrays-in-reactjs)
+  
+  https://stackoverflow.com/questions/4641540/how-to-find-method-name-from-within-that-method-in-java
+
+- [Change port:3000 to other one in React.js](https://github.com/facebook/create-react-app/issues/1083)
+
+- [React Router best practices](https://www.freecodecamp.org/news/hitchhikers-guide-to-react-router-v4-a957c6a5aa18/)
+
+
 ## Available Scripts
 
 In the project directory, you can run:
 
 ### `npm start`
 
-Runs the app in the development mode.<br />
+Runs the app in the development mode.<br>
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.<br />
+The page will reload if you make edits.<br>
 You will also see any lint errors in the console.
 
 ### `npm test`
 
-Launches the test runner in the interactive watch mode.<br />
+Launches the test runner in the interactive watch mode.<br>
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
 ### `npm run build`
 
-Builds the app for production to the `build` folder.<br />
+Builds the app for production to the `build` folder.<br>
 It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.<br />
+The build is minified and the filenames include the hashes.<br>
 Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
