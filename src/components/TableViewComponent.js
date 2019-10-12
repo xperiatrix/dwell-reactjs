@@ -20,7 +20,6 @@ class TableViewComponent extends React.Component {
 
     installView(element) {
         // constructor({ direction, insets, spacing, itemSize }
-        console.log('installView   00')
         const itemSize = new Size(300, 320);
         const layout = new GridLayout({itemSize});
         this.view = new CollectionView(element, layout, this)
@@ -82,10 +81,16 @@ class TableViewComponent extends React.Component {
         element.classList.add(PageStyle.box)
         let item = this.items[index]
         ReactDOM.render(<TableViewCellComponent itemValue={item}
-                                                atIndex={index}
-                                                selectedCallBackFromTableView={this.tableViewCellDidSelectedCallback}
-                                                buttonSharedCallBackFromTableView={this.tableViewCellShareButtonClickedCallback} />,
+            atIndex={index}
+            selectedCallBackFromTableView={this.tableViewCellDidSelectedCallback}
+            buttonSharedCallBackFromTableView={this.tableViewCellShareButtonClickedCallback} />,
                         element)
+        console.log('configureElement'+ index)
+    }
+
+    invalidateElement(element, index) {
+        console.log('configureElement'+ index)
+        ReactDOM.unmountComponentAtNode(element) 
     }
          
     render() {
@@ -110,13 +115,13 @@ function diff(original, target, keyFunction) {
 
     const originalMap = new Map()
     original.forEach((item, index) => {
-        const key = keyFunction(item)
+        const key = keyFunction(item.id)
         originalMap.set(key, index)
     })
 
     const targetMap = new Map()
     target.forEach((item, index) => {
-        const key = keyFunction(item)
+        const key = keyFunction(item.id)
         targetMap.set(key, index)
 
         const originalIndex = originalMap.get(key)
@@ -126,10 +131,11 @@ function diff(original, target, keyFunction) {
     })
 
     original.forEach((item, index) => {
-        const key = keyFunction(item)
+        const key = keyFunction(item.id)
         const targetIndex = targetMap.get(key)
         if (targetIndex === undefined) {
             removed.push(index)
+            console.log('remove-push-index()' + index)
         } else if (targetIndex !== index) {
             moved.set(index, targetIndex)
         }
@@ -137,6 +143,5 @@ function diff(original, target, keyFunction) {
 
     return [removed, added, moved]
 }
-
 
 export default TableViewComponent;

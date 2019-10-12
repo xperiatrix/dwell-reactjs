@@ -22,7 +22,6 @@ class App extends React.Component {
       pageNumber: 1,
       pageSize: 20,
       hasMore: true,
-      totalCount: 0,
       uitableview: null,
     }
 
@@ -33,7 +32,6 @@ class App extends React.Component {
 
   componentDidMount() {
     this.loadDataAtFirstTime();
-    console.log('+++++++++++++++componentDidMount')
   }
 
   onRefresh() {
@@ -47,24 +45,29 @@ class App extends React.Component {
     if (this.isInfinityLoopCanBeTriggered) {
       console.log('+++++++++++++++load-more-data------------')
       var previousPageNumber = this.state.pageNumber;
+      this.isInfinityLoopCanBeTriggered = false;
       this.loadDataAfterTheFirstTime(previousPageNumber+1)
     }
   }
 
   loadDataAtFirstTime() {
     const axios = require('axios');
-    var fetchedData = [];
+    var fetchedData = null;
     const url = DwellAPI.houseList+'?pageNumber=1';
+    var hasMore = false;
     axios.get(url)
       .then((response) => {
         console.log(((response['data'])['data'])['arrays']);
         fetchedData = ((response['data'])['data'])['arrays'];
+        hasMore = ((response['data'])['data'])['pageTotal'] > 20
       })
       .catch((error) => {
         console.log(error);
       })
       .finally(() => {
         this.setState({
+          pageNumber: 1,
+          hasMore: hasMore,
           serverResponse: fetchedData,
           uitableview: <TableViewComponent datasource={fetchedData} />
         }) 
@@ -73,23 +76,26 @@ class App extends React.Component {
   }
 
   loadDataAfterTheFirstTime(pageNumber) {
-    console.log(pageNumber)
     const axios = require('axios');
     this.isInfinityLoopCanBeTriggered = false;
     var fetchedData = this.state.serverResponse.slice();
     var newFetchedData = [];
-    const url = DwellAPI.houseList+'?pageNumber='+pageNumber; 
+    const url = DwellAPI.houseList+'?pageNumber='+pageNumber;
+    var hasMore = false;
     axios.get(url)
     .then((response) => {
       console.log(((response['data'])['data'])['arrays']);
       newFetchedData = ((response['data'])['data'])['arrays'];
       fetchedData = [...fetchedData, ...newFetchedData];
+      hasMore = ((response['data'])['data'])['pageTotal'] > 20*pageNumber
     })
     .catch((error) => {
       console.log(error);
     })
     .finally(() => {
       this.setState({
+        hasMore: hasMore,
+        pageNumber: pageNumber,
         serverResponse: fetchedData,
         uitableview: <TableViewComponent datasource={fetchedData} />
       }) 
@@ -157,7 +163,7 @@ class App extends React.Component {
                               onRefresh={this.onRefresh}
                               triggerHeight={100}>
                               <div className="page-content">
-                                <div style={{height:"700px", overflow:"auto", clear:"both"}}>
+                                <div style={{height:"900px", overflow:"auto", clear:"both"}}>
                                   <InfiniteScroll
                                       pageStart={0}
                                       useWindow={false}
