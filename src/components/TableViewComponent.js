@@ -15,7 +15,8 @@ class TableViewComponent extends React.Component {
     }
 
     tableViewCellShareButtonClickedCallback = (atIndex) => {
-        console.log(atIndex + 'tableViewCellShareButtonClickedCallback')
+      console.log(atIndex + 'tableViewCellShareButtonClickedCallback')
+      this.props.itemDidSelected()
     }
 
     installView(element) {

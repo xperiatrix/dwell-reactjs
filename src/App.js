@@ -11,6 +11,8 @@ import {PullToRefresh} from "react-js-pull-to-refresh";
 import {PullDownContent, ReleaseContent, RefreshContent} from "react-js-pull-to-refresh";
 import InfiniteScroll from 'react-infinite-scroller';
 import '../node_modules/react-infinite-scroller/dist/InfiniteScroll.js';
+import { ToastContainer, toast } from 'react-toastify';
+import '../node_modules/react-toastify/dist/ReactToastify.css';
 
 class App extends React.Component {
   constructor(props) {
@@ -29,6 +31,15 @@ class App extends React.Component {
     this.onRefresh = this.onRefresh.bind(this);
     this.loadMoreData = this.loadMoreData.bind(this);
   }
+
+  notifyCallBack = () => toast(
+    "请耐心等待 社交分享功能将在下个版本发布", 
+    {
+    render: "New content",
+    type: toast.TYPE.SUCCESS,
+    autoClose: 5000
+    }
+  );
 
   componentDidMount() {
     this.loadDataAtFirstTime();
@@ -69,7 +80,7 @@ class App extends React.Component {
           pageNumber: 1,
           hasMore: hasMore,
           serverResponse: fetchedData,
-          uitableview: <TableViewComponent datasource={fetchedData} />
+          uitableview: <TableViewComponent datasource={fetchedData} itemDidSelected={this.notifyCallBack}/>
         }) 
         this.isInfinityLoopCanBeTriggered = true;
       });
@@ -97,7 +108,7 @@ class App extends React.Component {
         hasMore: hasMore,
         pageNumber: pageNumber,
         serverResponse: fetchedData,
-        uitableview: <TableViewComponent datasource={fetchedData} />
+        uitableview: <TableViewComponent datasource={fetchedData} itemDidSelected={this.notifyCallBack}/>
       }) 
       this.isInfinityLoopCanBeTriggered = true;
     }); 
@@ -108,7 +119,7 @@ class App extends React.Component {
 
     return (
       <div className="demo-layout-transparent mdl-layout mdl-js-layout
-                      mdl-layout--fixed-header mdl-layout--fixed-tabs">
+                      mdl-layout--fixed-header mdl-layout--fixed-tabs ">
           <header className="mdl-layout__header mdl-layout__header--transparent">
             <div className="mdl-layout__header-row">
               <span className="mdl-layout-title">Application</span>
@@ -188,8 +199,8 @@ class App extends React.Component {
                 <div className="page-content">搜索结果</div>
               </section>
           </main>
+          <ToastContainer />
       </div>
-      
     ); 
   }
 }

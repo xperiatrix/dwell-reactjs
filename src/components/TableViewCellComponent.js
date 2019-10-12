@@ -8,7 +8,7 @@ class TableViewCellComponent extends React.Component {
     }
 
     didShareButtonClickedAtIndex = () => {
-      this.props.buttonSharedCallBackFromTableView(this.props.atIndex)
+       this.props.buttonSharedCallBackFromTableView(this.props.atIndex)
     }
 
     render() {
@@ -33,10 +33,10 @@ class TableViewCellComponent extends React.Component {
                   </div>
 
                   <div className="mdl-card__menu">
-                    <button className="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" 
+                    <a className="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" 
                               onClick={this.didShareButtonClickedAtIndex}>
                       <i className="material-icons">share</i>
-                    </button>
+                    </a>
                   </div>
                 </div>
                 <p> </p>
